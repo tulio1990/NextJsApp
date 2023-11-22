@@ -4,17 +4,22 @@ import utilStyles from '../styles/utils.module.css';
 import { getSortedPostsData } from '../lib/posts';
 import Link from 'next/link';
 import Date from '../components/date';
+import { GetStaticProps} from 'next'
 
-export async function getStaticProps() {
+interface HomeProps {
+  allPostsData: Array<any>;
+}
+
+export const getStaticProps = (async () => {
   const allPostsData = getSortedPostsData();
   return {
     props: {
       allPostsData,
     },
   };
-}
+} ) satisfies GetStaticProps
 
-export default function Home({ allPostsData }) {
+const Home: React.FC<HomeProps> = ({ allPostsData }) => {
   return (
     <Layout home>
       <Head>
@@ -45,3 +50,5 @@ export default function Home({ allPostsData }) {
     </Layout>
   );
 }
+
+export default Home
